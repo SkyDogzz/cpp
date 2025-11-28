@@ -45,7 +45,7 @@ void ClapTrap::attack(const std::string &target) {
     return;
   }
   _energyPoints--;
-  std::cout << "ClapTrap " << _name << "(" << this << ")attack " << target
+  std::cout << "ClapTrap " << _name << "(" << this << ") attack " << target
             << " by " << _attackDamage << std::endl;
 }
 
