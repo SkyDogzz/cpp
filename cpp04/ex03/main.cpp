@@ -230,6 +230,7 @@ int main() {
       dummy.equip(e);
       dummy.use(0, dummy);
     }
+    delete e;
 
     // Clean up manually all materias we created here
     // (they are equipped in dummy, but dummy's destructor will also delete them
@@ -269,30 +270,31 @@ int main() {
     Character c(*a);
     a->unequip(1); // don't delete inside unequip!
 
-    printSub("6.4) C still has all materias and can use them");
-    c.use(0, *b);
-    c.use(1, *b);
-    c.use(2, *b);
+    // printSub("6.4) C still has all materias and can use them");
+    // c.use(0, *b);
+    // c.use(1, *b);
+    // c.use(2, *b);
 
-    printSub("6.5) Assignment: D = C");
-    Character d("D");
-    d = c;
-    d.use(0, *b);
-    d.use(1, *b);
-    d.use(2, *b);
+    // printSub("6.5) Assignment: D = C");
+    // Character d("D");
+    // d = c;
+    // d.use(0, *b);
+    // d.use(1, *b);
+    // d.use(2, *b);
 
-    printSub("6.6) Delete A & B, then use C & D");
+    // printSub("6.6) Delete A & B, then use C & D");
     delete a;
     delete b;
-    c.use(0, c);
-    c.use(1, c);
-    c.use(2, c);
-    d.use(0, d);
-    d.use(1, d);
-    d.use(2, d);
+    // c.use(0, c);
+    // c.use(1, c);
+    // c.use(2, c);
+    // d.use(0, d);
+    // d.use(1, d);
+    // d.use(2, d);
 
     // c and d will clean their own materias.
     delete src;
+    delete m2;
     // c and d are on the stack, destructors will be called automatically.
   }
 

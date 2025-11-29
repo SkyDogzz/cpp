@@ -7,9 +7,9 @@ MateriaSource::MateriaSource() {
 
 MateriaSource::MateriaSource(const MateriaSource &other) {
   for (int i = 0; i < 4; i++)
-    if (other._learned[i])
+    if (other._learned[i]) {
       _learned[i] = other._learned[i]->clone();
-    else
+    } else
       _learned[i] = NULL;
 }
 
@@ -29,13 +29,14 @@ MateriaSource &MateriaSource::operator=(const MateriaSource &other) {
 MateriaSource::~MateriaSource() {
   for (int i = 0; i < 4; i++) {
     delete _learned[i];
+    _learned[i] = NULL;
   }
 }
 
 void MateriaSource::learnMateria(AMateria *m) {
   for (int i = 0; i < 4; i++) {
     if (_learned[i] == NULL) {
-      _learned[i] = m->clone();
+      _learned[i] = m;
       return;
     }
   }
