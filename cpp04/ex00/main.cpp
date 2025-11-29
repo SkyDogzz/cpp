@@ -3,7 +3,6 @@
 #include "Dog.hpp"
 #include "WrongAnimal.hpp"
 #include "WrongCat.hpp"
-#include <iostream>
 
 int main() {
   std::cout << "===== Correct Polymorphism =====" << std::endl;
