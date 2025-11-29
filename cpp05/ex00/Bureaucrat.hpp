@@ -4,9 +4,6 @@
 #include <exception>
 #include <string>
 
-class GradeTooHighException : public std::exception {};
-class GradeTooLowException : public std::exception {};
-
 class Bureaucrat {
 private:
   const std::string _name;
@@ -17,6 +14,15 @@ public:
   Bureaucrat(const Bureaucrat &other);
   Bureaucrat &operator=(const Bureaucrat &other);
   ~Bureaucrat();
+
+  class GradeTooHighException : public std::exception {
+  public:
+    const char *what() const throw();
+  };
+  class GradeTooLowException : public std::exception {
+  public:
+    const char *what() const throw();
+  };
 
   const std::string &getName(void) const;
   const unsigned int &getGrade(void) const;

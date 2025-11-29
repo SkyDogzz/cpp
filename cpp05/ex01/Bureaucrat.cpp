@@ -23,6 +23,14 @@ Bureaucrat &Bureaucrat::operator=(const Bureaucrat &other) {
 
 Bureaucrat::~Bureaucrat() {}
 
+const char *Bureaucrat::GradeTooHighException::what() const throw() {
+  return "Bureaucrat: grade too high";
+}
+
+const char *Bureaucrat::GradeTooLowException::what() const throw() {
+  return "Bureaucrat: grade too low";
+}
+
 const std::string &Bureaucrat::getName(void) const { return _name; }
 
 const unsigned int &Bureaucrat::getGrade(void) const { return _grade; }
