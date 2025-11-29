@@ -7,7 +7,7 @@
 
 #include "ClapTrap.hpp"
 
-class ScavTrap : public ClapTrap {
+class ScavTrap : virtual public ClapTrap {
 private:
 public:
   ScavTrap(const std::string &name);

@@ -1,7 +1,12 @@
 #ifndef SCAVTRAP_HPP
 #define SCAVTRAP_HPP
 
+#ifndef VERBOSE
+#define VERBOSE 0
+#endif
+
 #include "ClapTrap.hpp"
+
 class ScavTrap : public ClapTrap {
 private:
 public:

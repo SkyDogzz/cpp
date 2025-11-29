@@ -1,8 +1,8 @@
-NAME	:= repetitve_work
+NAME	:= now_its_weird
 CC		:= c++
-CFLAGS	:= -Wall -Wextra -Werror -std=c++98 -MMD -MP
+CFLAGS	:= -Wall -Wextra -Werror -Wshadow -std=c++98 -MMD -MP
 
-SRCS	:= main.cpp ClapTrap.cpp ScavTrap.cpp FragTrap.cpp
+SRCS	:= main.cpp ClapTrap.cpp ScavTrap.cpp FragTrap.cpp DiamondTrap.cpp
 OBJDIR	:= obj
 BINDIR	:= bin
 OBJS 	:= $(SRCS:%.cpp=$(OBJDIR)/%.o)

@@ -7,10 +7,10 @@ OBJDIR	:= obj
 BINDIR	:= bin
 OBJS 	:= $(SRCS:%.cpp=$(OBJDIR)/%.o)
 
-ifeq ($(DEBUG), 1)
-	CFLAGS += -DVERBOSE=1 -g3
-else
+ifeq ($(DEBUG), 0)
 	CFLAGS += -DVERBOSE=0
+else
+	CFLAGS += -DVERBOSE=1 -g3
 endif
 
 all: $(BINDIR)/$(NAME)
