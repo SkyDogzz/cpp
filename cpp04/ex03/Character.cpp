@@ -28,12 +28,7 @@ Character &Character::operator=(const Character &other) {
   return *this;
 }
 
-Character::~Character() {
-  for (int i = 0; i < INVENTORY_SIZE; i++) {
-    if (_inventory[i] != NULL)
-      delete _inventory[i];
-  }
-}
+Character::~Character() {}
 
 std::string const &Character::getName(void) const { return _name; }
 
