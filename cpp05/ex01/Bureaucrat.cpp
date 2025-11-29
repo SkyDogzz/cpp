@@ -1,4 +1,5 @@
 #include "Bureaucrat.hpp"
+#include "Form.hpp"
 #include <ostream>
 
 Bureaucrat::Bureaucrat(std::string name, unsigned int grade)
@@ -45,6 +46,12 @@ void Bureaucrat::decrementGrade(void) {
   if (_grade >= 150)
     throw GradeTooLowException();
   _grade++;
+}
+
+void Bureaucrat::signForm(Form &form) {
+  if (getGrade() < form.getGradeToSign()) {
+    form.beSigned(*this);
+  }
 }
 
 std::ostream &operator<<(std::ostream &ostream, const Bureaucrat &other) {

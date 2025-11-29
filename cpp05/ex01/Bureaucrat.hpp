@@ -4,6 +4,7 @@
 #include <exception>
 #include <string>
 
+class Form;
 class Bureaucrat {
 private:
   const std::string _name;
@@ -28,6 +29,7 @@ public:
   const unsigned int &getGrade(void) const;
   void incrementGrade(void);
   void decrementGrade(void);
+  void signForm(Form &form);
 };
 
 std::ostream &operator<<(std::ostream &ostream, const Bureaucrat &);
