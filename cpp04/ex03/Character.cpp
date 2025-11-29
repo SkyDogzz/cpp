@@ -1,19 +1,18 @@
 #include "Character.hpp"
 #include "AMateria.hpp"
 
-Character::Character(const std::string name) {
-  std::cout << "Constructor character called" << std::endl;
-  _name = name;
-  for (int i = 0; i < INVENTORY_SIZE; i++) {
+Character::Character(const std::string name) : _name(name) {
+  for (int i = 0; i < INVENTORY_SIZE; i++)
     _inventory[i] = NULL;
-  }
 }
 
-Character::Character(const Character &other) {
+Character::Character(const Character &other) : _name(other._name) {
   std::cout << "Copy constructor character called" << std::endl;
-  _name = other._name;
   for (int i = 0; i < INVENTORY_SIZE; i++) {
-    _inventory[i] = other._inventory[i];
+    if (other._inventory[i])
+      _inventory[i] = other._inventory[i]->clone();
+    else
+      _inventory[i] = NULL;
   }
 }
 
@@ -21,14 +20,23 @@ Character &Character::operator=(const Character &other) {
   std::cout << "Asignement operator called" << std::endl;
   if (this != &other) {
     _name = other._name;
+    // delete current inventory first
     for (int i = 0; i < INVENTORY_SIZE; i++) {
-      _inventory[i] = other._inventory[i];
+      delete _inventory[i];
+      if (other._inventory[i])
+        _inventory[i] = other._inventory[i]->clone();
+      else
+        _inventory[i] = NULL;
     }
   }
   return *this;
 }
 
-Character::~Character() {}
+Character::~Character() {
+  for (int i = 0; i < INVENTORY_SIZE; i++) {
+    delete _inventory[i];
+  }
+}
 
 std::string const &Character::getName(void) const { return _name; }
 

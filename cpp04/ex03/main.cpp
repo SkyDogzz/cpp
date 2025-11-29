@@ -236,9 +236,7 @@ int main() {
     // if you chose that design; if not, this avoids leaks).
     // To be extra safe in tests, we could unequip and delete, but that depends
     // on your Character design. Adapt if needed.
-
-    // delete src3;
-    //  src2 is on the stack, its destructor will run at scope end.
+    // src2 is on the stack, its destructor will run at scope end.
   }
 
   // ************************************************************
