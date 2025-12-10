@@ -2,7 +2,7 @@ NAME	:= no
 CC		:= c++
 CFLAGS	:= -Wall -Wextra -Werror -std=c++98 -MMD -MP
 
-SRCS	:= main.cpp Bureaucrat.cpp AForm.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp
+SRCS	:= main.cpp Bureaucrat.cpp AForm.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp
 OBJDIR	:= obj
 BINDIR	:= bin
 OBJS 	:= $(SRCS:%.cpp=$(OBJDIR)/%.o)
