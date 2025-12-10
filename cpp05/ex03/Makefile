@@ -1,8 +1,8 @@
-NAME	:= and_open
+NAME	:= intern
 CC		:= c++
 CFLAGS	:= -Wall -Wextra -Werror -std=c++98 -MMD -MP
 
-SRCS	:= main.cpp ClapTrap.cpp
+SRCS	:= main.cpp Bureaucrat.cpp AForm.cpp Intern.cpp PresidentialPardonForm.cpp RobotomyRequestForm.cpp ShrubberyCreationForm.cpp
 OBJDIR	:= obj
 BINDIR	:= bin
 OBJS 	:= $(SRCS:%.cpp=$(OBJDIR)/%.o)

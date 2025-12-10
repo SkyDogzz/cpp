@@ -73,13 +73,15 @@ int main() {
   std::cout << low << std::endl;
 
   separator("VALID FORM CREATION VIA INTERN");
-  AForm *shrub = safeMakeForm("shrubbery creation", "garden");
-  AForm *robo = safeMakeForm("robotomy request", "Bender");
-  AForm *pardon = safeMakeForm("presidential pardon", "Arthur Dent");
+  AForm *shrub = safeMakeForm(someRandomIntern, "shrubbery creation", "garden");
+  AForm *robo = safeMakeForm(someRandomIntern, "robotomy request", "Bender");
+  AForm *pardon =
+      safeMakeForm(someRandomIntern, "presidential pardon", "Arthur Dent");
 
   separator("INVALID FORM CREATION VIA INTERN");
-  AForm *unknown1 = safeMakeForm("coffee request", "Machine");
-  AForm *unknown2 = safeMakeForm("totally random form", "Nobody");
+  AForm *unknown1 = safeMakeForm(someRandomIntern, "coffee request", "Machine");
+  AForm *unknown2 =
+      safeMakeForm(someRandomIntern, "totally random form", "Nobody");
   (void)unknown1;
   (void)unknown2;
 
@@ -106,8 +108,8 @@ int main() {
   }
 
   separator("MULTIPLE ROBOTOMIES CREATED BY INTERN");
-  AForm *robo2 = safeMakeForm("robotomy request", "Marvin");
-  AForm *robo3 = safeMakeForm("robotomy request", "HAL9000");
+  AForm *robo2 = safeMakeForm(someRandomIntern, "robotomy request", "Marvin");
+  AForm *robo3 = safeMakeForm(someRandomIntern, "robotomy request", "HAL9000");
   if (robo2) {
     signAndExecute(top, robotExec, robo2);
     std::cout << "\n--- Extra robotomy executions on robo2 ---\n";
