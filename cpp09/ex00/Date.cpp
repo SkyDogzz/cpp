@@ -1,5 +1,7 @@
 #include "Date.hpp"
 #include <algorithm>
+#include <cctype>
+#include <cstddef>
 #include <string>
 
 Date::Date() {}
@@ -46,7 +48,44 @@ Date::Date(unsigned int year, unsigned int month, unsigned int day) {
     throw Date::DayMustBeInRange();
 }
 
-Date::Date(std::string yymmdd) {}
+bool containOnlyNumbers(char *str) {
+  while (*str) {
+    if (!std::isdigit(*str))
+      return false;
+    str++;
+  }
+  return true;
+}
+
+Date::Date(std::string yymmdd) {
+  const char *del = "-";
+
+  std::string::difference_type n =
+      std::count(yymmdd.begin(), yymmdd.end(), '-');
+  if (n != 2)
+    throw Date::DateFormatNotValid();
+  char *t = strtok(const_cast<char *>(yymmdd.data()), del);
+  if (t == NULL || !containOnlyNumbers(t))
+    throw Date::DateFormatNotValid();
+  _year = atoi(t);
+  t = strtok(NULL, del);
+  if (t == NULL || !containOnlyNumbers(t))
+    throw Date::DateFormatNotValid();
+  _month = atoi(t);
+  t = strtok(NULL, del);
+  if (t == NULL || !containOnlyNumbers(t))
+    throw Date::DateFormatNotValid();
+  _day = atoi(t);
+  t = strtok(NULL, del);
+  if (t != NULL)
+    throw Date::DateFormatNotValid();
+  if (!validYear())
+    throw Date::YearMustBeWithin1000And9999();
+  if (!validMonth())
+    throw Date::MonthMustBeWithin1And12();
+  if (!validDay())
+    throw Date::DayMustBeInRange();
+}
 
 Date::Date(const Date &other) {
   _year = other._year;
@@ -65,6 +104,22 @@ Date &Date::operator=(const Date &other) {
 
 Date::~Date() {}
 
+bool Date::operator>(const Date &rval) {
+  if (_year > rval._year)
+    return true;
+  else if (_year < rval._year)
+    return false;
+  else if (_month > rval._month)
+    return true;
+  else if (_month < rval._month)
+    return false;
+  else if (_day > rval._day)
+    return true;
+  else if (_day < rval._day)
+    return false;
+  return false;
+}
+
 const char *Date::YearMustBeWithin1000And9999::what() const throw() {
   return "Year must be within 1000 and 9999";
 }
@@ -75,4 +130,8 @@ const char *Date::MonthMustBeWithin1And12::what() const throw() {
 
 const char *Date::DayMustBeInRange::what() const throw() {
   return "Day must be in range (1 - 28/29/30/31)";
+}
+
+const char *Date::DateFormatNotValid::what() const throw() {
+  return "Date format not valid: yyyy-mm-dd";
 }

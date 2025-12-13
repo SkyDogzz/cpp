@@ -1,6 +1,7 @@
 #ifndef DATE_HPP
 #define DATE_HPP
 
+#include <bits/stdc++.h>
 #include <string>
 
 enum month {
@@ -32,17 +33,22 @@ public:
   Date &operator=(const Date &other);
   ~Date();
 
-  class YearMustBeWithin1000And9999 : std::exception {
+  class YearMustBeWithin1000And9999 : public std::exception {
   public:
     const char *what() const throw();
   };
 
-  class MonthMustBeWithin1And12 : std::exception {
+  class MonthMustBeWithin1And12 : public std::exception {
   public:
     const char *what() const throw();
   };
 
-  class DayMustBeInRange : std::exception {
+  class DayMustBeInRange : public std::exception {
+  public:
+    const char *what() const throw();
+  };
+
+  class DateFormatNotValid : public std::exception {
   public:
     const char *what() const throw();
   };
@@ -50,6 +56,8 @@ public:
   bool validYear(void);
   bool validMonth(void);
   bool validDay(void);
+
+  bool operator>(const Date &rval);
 };
 
 #endif
