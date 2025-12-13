@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cstddef>
+#include <cstdlib>
 #include <string>
 
 Date::Date() {}
@@ -46,6 +47,9 @@ Date::Date(unsigned int year, unsigned int month, unsigned int day) {
     throw Date::MonthMustBeWithin1And12();
   if (!validDay())
     throw Date::DayMustBeInRange();
+  std::stringstream ss;
+  ss << _year << "-" << _month << "-" << _day;
+  _full = ss.str();
 }
 
 bool containOnlyNumbers(char *str) {
@@ -85,12 +89,14 @@ Date::Date(std::string yymmdd) {
     throw Date::MonthMustBeWithin1And12();
   if (!validDay())
     throw Date::DayMustBeInRange();
+  _full = yymmdd;
 }
 
 Date::Date(const Date &other) {
   _year = other._year;
   _month = other._month;
   _day = other._day;
+  _full = other._full;
 }
 
 Date &Date::operator=(const Date &other) {
@@ -98,6 +104,7 @@ Date &Date::operator=(const Date &other) {
     _year = other._year;
     _month = other._month;
     _day = other._day;
+    _full = other._full;
   }
   return *this;
 }

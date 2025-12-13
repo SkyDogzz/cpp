@@ -20,7 +20,8 @@ enum month {
 };
 
 class Date {
-private:
+public:
+  std::string _full;
   unsigned int _year;
   unsigned int _month;
   unsigned int _day;

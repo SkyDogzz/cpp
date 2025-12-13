@@ -20,6 +20,41 @@ static std::string trim(const std::string &s) {
   return s.substr(b, e - b + 1);
 }
 
+static bool isValidDate(const std::string &s) {
+  try {
+    Date tmp(s);
+  } catch (...) {
+    return false;
+  }
+  return true;
+}
+
+void BitcoinExchange::parseData(void) {
+  std::ifstream input("data.csv");
+  if (!input.is_open())
+    throw BitcoinExchange::CouldntOpenFileException();
+
+  std::string line;
+  while (std::getline(input, line)) {
+    size_t comma = line.find(',');
+    if (comma == std::string::npos)
+      continue;
+
+    std::string left = trim(line.substr(0, comma));
+    std::string right = trim(line.substr(comma + 1));
+
+    if (!isValidDate(left))
+      continue;
+
+    char *end = 0;
+    double val = std::strtod(right.c_str(), &end);
+    if (end == right.c_str() || *end != '\0')
+      continue;
+
+    _data.insert(std::make_pair(Date(left), static_cast<float>(val)));
+  }
+}
+
 void BitcoinExchange::parseInput(const char *filename) {
   if (!filename)
     throw BitcoinExchange::CouldntOpenFileException();
@@ -37,7 +72,7 @@ void BitcoinExchange::parseInput(const char *filename) {
     size_t pipe = line.find('|');
     if (pipe == std::string::npos ||
         line.find('|', pipe + 1) != std::string::npos)
-      std::cerr << "Error: dad input => " << line << std::endl;
+      std::cerr << "Error: bad input => " << line << std::endl;
 
     std::string left = trim(line.substr(0, pipe));
     std::string right = trim(line.substr(pipe + 1));
