@@ -3,13 +3,15 @@
 
 #include "Date.hpp"
 #include <bits/stdc++.h>
+#include <cstring>
 #include <exception>
+#include <fstream>
 #include <iostream>
 
 class BitcoinExchange {
 private:
-  std::multiset<std::string, double> _data;
-  std::multiset<std::string, double> _input;
+  std::multimap<Date, float> _data;
+  std::multimap<Date, float> _input;
 
 public:
   BitcoinExchange();
@@ -20,6 +22,11 @@ public:
   void parseInput(const char *filename);
 
   class CouldntOpenFileException : public std::exception {
+  public:
+    const char *what() const throw();
+  };
+
+  class BadInput : public std::exception {
   public:
     const char *what() const throw();
   };

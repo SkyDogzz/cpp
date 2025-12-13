@@ -104,7 +104,7 @@ Date &Date::operator=(const Date &other) {
 
 Date::~Date() {}
 
-bool Date::operator>(const Date &rval) {
+bool Date::operator>(const Date &rval) const {
   if (_year > rval._year)
     return true;
   else if (_year < rval._year)
@@ -116,6 +116,22 @@ bool Date::operator>(const Date &rval) {
   else if (_day > rval._day)
     return true;
   else if (_day < rval._day)
+    return false;
+  return false;
+}
+
+bool Date::operator<(const Date &rval) const {
+  if (_year < rval._year)
+    return true;
+  else if (_year > rval._year)
+    return false;
+  else if (_month < rval._month)
+    return true;
+  else if (_month > rval._month)
+    return false;
+  else if (_day < rval._day)
+    return true;
+  else if (_day > rval._day)
     return false;
   return false;
 }

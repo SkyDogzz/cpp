@@ -57,7 +57,8 @@ public:
   bool validMonth(void);
   bool validDay(void);
 
-  bool operator>(const Date &rval);
+  bool operator>(const Date &rval) const;
+  bool operator<(const Date &rval) const;
 };
 
 #endif
