@@ -1,160 +1,192 @@
 #include "Date.hpp"
-#include <algorithm>
-#include <cctype>
-#include <cstddef>
-#include <cstdlib>
-#include <string>
 
-Date::Date() {}
+#include <cstring>
+#include <fstream>
+#include <memory>
 
-bool Date::validYear() {
-  if (_year < 1000 || _year > 9999)
-    return false;
-  return true;
+Date::Date() : _full(""), _year(0), _month(0), _day(0) {}
+
+Date::Date(std::string yymmdd) : _full(yymmdd) {
+	try {
+		if (!Date::validDate(yymmdd, *this))
+			return;
+	} catch (const std::exception& e) {
+		std::cerr << "Error: " << e.what() << " => " << _full << std::endl;
+	}
 }
 
-bool Date::validMonth() {
-  if (_month > 12)
-    return false;
-  return true;
+Date::Date(const Date& other) {
+	_full = other._full;
+	_year = other._year;
+	_month = other._month;
+	_day = other._day;
 }
 
-bool Date::validDay() {
-  unsigned int maxDays;
-
-  if (_month == 1 || _month == 3 || _month == 5 || _month == 7 || _month == 8 ||
-      _month == 10 || _month == 12)
-    maxDays = 31;
-  else if (_month == 2) {
-    if (_year % 4 == 0)
-      maxDays = 29;
-    else
-      maxDays = 28;
-  } else
-    maxDays = 29;
-  if (_day > maxDays)
-    return false;
-  return true;
-}
-
-Date::Date(unsigned int year, unsigned int month, unsigned int day) {
-  _year = year;
-  _month = month;
-  _day = day;
-  if (!validYear())
-    throw Date::YearMustBeWithin1000And9999();
-  if (!validMonth())
-    throw Date::MonthMustBeWithin1And12();
-  if (!validDay())
-    throw Date::DayMustBeInRange();
-  std::stringstream ss;
-  ss << _year << "-" << _month << "-" << _day;
-  _full = ss.str();
-}
-
-bool containOnlyNumbers(char *str) {
-  while (*str) {
-    if (!std::isdigit(*str))
-      return false;
-    str++;
-  }
-  return true;
-}
-
-Date::Date(std::string yymmdd) {
-  const char *del = "-";
-
-  std::string::difference_type n =
-      std::count(yymmdd.begin(), yymmdd.end(), '-');
-  if (n != 2)
-    throw Date::DateFormatNotValid();
-  char *t = strtok(const_cast<char *>(yymmdd.data()), del);
-  if (t == NULL || !containOnlyNumbers(t))
-    throw Date::DateFormatNotValid();
-  _year = atoi(t);
-  t = strtok(NULL, del);
-  if (t == NULL || !containOnlyNumbers(t))
-    throw Date::DateFormatNotValid();
-  _month = atoi(t);
-  t = strtok(NULL, del);
-  if (t == NULL || !containOnlyNumbers(t))
-    throw Date::DateFormatNotValid();
-  _day = atoi(t);
-  t = strtok(NULL, del);
-  if (t != NULL)
-    throw Date::DateFormatNotValid();
-  if (!validYear())
-    throw Date::YearMustBeWithin1000And9999();
-  if (!validMonth())
-    throw Date::MonthMustBeWithin1And12();
-  if (!validDay())
-    throw Date::DayMustBeInRange();
-  _full = yymmdd;
-}
-
-Date::Date(const Date &other) {
-  _year = other._year;
-  _month = other._month;
-  _day = other._day;
-  _full = other._full;
-}
-
-Date &Date::operator=(const Date &other) {
-  if (this != &other) {
-    _year = other._year;
-    _month = other._month;
-    _day = other._day;
-    _full = other._full;
-  }
-  return *this;
+Date& Date::operator=(const Date& other) {
+	if (this != &other) {
+		_full = other._full;
+		_year = other._year;
+		_month = other._month;
+		_day = other._day;
+	}
+	return *this;
 }
 
 Date::~Date() {}
 
-bool Date::operator>(const Date &rval) const {
-  if (_year > rval._year)
-    return true;
-  else if (_year < rval._year)
-    return false;
-  else if (_month > rval._month)
-    return true;
-  else if (_month < rval._month)
-    return false;
-  else if (_day > rval._day)
-    return true;
-  else if (_day < rval._day)
-    return false;
-  return false;
+bool Date::validDate(std::string yymmdd, Date& date) {
+	if (!Date::validFormat(yymmdd))
+		throw Date::BadDateFormat();
+	char*		dateOnly = strtok(const_cast<char*>(yymmdd.data()), "|,");
+	const char* del = "-";
+
+	char* t = strtok(dateOnly, del);
+	if (!t || !(date._year = validYear(atoi(t), date)))
+		throw Date::BadYearInput();
+	t = strtok(NULL, del);
+	if (!t || !(date._month = validMonth(atoi(t), date)))
+		throw Date::BadMonthInput();
+	t = strtok(NULL, del);
+	if (!t || !(date._day = validDay(atoi(t), date)))
+		throw Date::BadDayInput();
+	t = strtok(NULL, del);
+	if (t != NULL)
+		throw Date::BadDateFormat();
+
+	return true;
 }
 
-bool Date::operator<(const Date &rval) const {
-  if (_year < rval._year)
-    return true;
-  else if (_year > rval._year)
-    return false;
-  else if (_month < rval._month)
-    return true;
-  else if (_month > rval._month)
-    return false;
-  else if (_day < rval._day)
-    return true;
-  else if (_day > rval._day)
-    return false;
-  return false;
+static bool contains_bad_char(std::string yymmdd, std::string set) {
+	const char* date = static_cast<const char*>(yymmdd.data());
+
+	while (*date) {
+		if (set.find(*date) == std::string::npos)
+			return true;
+		date++;
+	}
+	return false;
 }
 
-const char *Date::YearMustBeWithin1000And9999::what() const throw() {
-  return "Year must be within 1000 and 9999";
+bool Date::validFormat(std::string yymmdd) {
+	static const std::string set = "0123456789-";
+
+	if (contains_bad_char(yymmdd, set))
+		throw Date::BadDateFormat();
+	return true;
 }
 
-const char *Date::MonthMustBeWithin1And12::what() const throw() {
-  return "Month must be within 1 and 12";
+unsigned int Date::validYear(unsigned int year, Date& tmp) {
+	if (year < 1000 || year > 9999)
+		return 0;
+	tmp._year = year;
+	return year;
 }
 
-const char *Date::DayMustBeInRange::what() const throw() {
-  return "Day must be in range (1 - 28/29/30/31)";
+unsigned int Date::validMonth(unsigned int month, Date& tmp) {
+	if (month > 12)
+		return 0;
+	tmp._month = month;
+	return month;
 }
 
-const char *Date::DateFormatNotValid::what() const throw() {
-  return "Date format not valid: yyyy-mm-dd";
+unsigned int Date::validDay(unsigned int day, Date& tmp) {
+	unsigned int max = 0;
+
+	if (day == 0)
+		return false;
+
+	if (tmp._month == 1 || tmp._month == 3 || tmp._month == 5 || tmp._month == 7 || tmp._month == 8 ||
+		tmp._month == 10 || tmp._month == 12)
+		max = 31;
+	else if (tmp._month == 4 || tmp._month == 6 || tmp._month == 9 || tmp._month == 11)
+		max = 30;
+	else if (tmp._month == 2) {
+		if (tmp._year % 4 == 0) {
+			if (tmp._year % 400 == 0)
+				max = 29;
+			else if (tmp._year % 100 == 0)
+				max = 28;
+			else
+				max = 29;
+		} else
+			max = 28;
+	}
+
+	if (day > max)
+		return false;
+	tmp._day = day;
+	return true;
+}
+
+bool Date::operator>(const Date& rval) const {
+	if (_year > rval._year)
+		return true;
+	else if (_year < rval._year)
+		return false;
+	else if (_month > rval._month)
+		return true;
+	else if (_month < rval._month)
+		return false;
+	else if (_day > rval._day)
+		return true;
+	else if (_day < rval._day)
+		return false;
+	return false;
+}
+
+bool Date::operator<(const Date& rval) const {
+	if (_year < rval._year)
+		return true;
+	else if (_year > rval._year)
+		return false;
+	else if (_month < rval._month)
+		return true;
+	else if (_month > rval._month)
+		return false;
+	else if (_day < rval._day)
+		return true;
+	else if (_day > rval._day)
+		return false;
+	return false;
+}
+
+bool Date::operator==(const Date& rval) const {
+	if (_year == rval._year && _month == rval._month && _day == rval._day)
+		return true;
+	return false;
+}
+
+bool Date::operator>=(const Date& rval) const {
+	return *this > rval || *this == rval;
+}
+
+bool Date::operator<=(const Date& rval) const {
+	return *this < rval || *this == rval;
+}
+
+unsigned int Date::getYear(void) const {
+	return _year;
+}
+unsigned int Date::getMonth(void) const {
+	return _month;
+}
+unsigned int Date::getDay(void) const {
+	return _day;
+}
+
+const char* Date::BadDateFormat::what() const throw() {
+	return "Bad date format";
+}
+const char* Date::BadYearInput::what() const throw() {
+	return "Bad year input";
+}
+const char* Date::BadMonthInput::what() const throw() {
+	return "Bad month input";
+}
+const char* Date::BadDayInput::what() const throw() {
+	return "Bad day input";
+}
+
+std::ostream& operator<<(std::ostream& out, Date& date) {
+	return out << date.getYear() << "-" << date.getMonth() << "-" << date.getDay();
 }

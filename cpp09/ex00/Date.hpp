@@ -1,65 +1,54 @@
 #ifndef DATE_HPP
 #define DATE_HPP
 
-#include <bits/stdc++.h>
+#include <algorithm>
+#include <iostream>
 #include <string>
 
-enum month {
-  JANUARY = 1,
-  FEBRUARY = 2,
-  MARCH = 3,
-  APRIL = 4,
-  MAY = 5,
-  JUNE = 6,
-  JULY = 7,
-  AUGUST = 8,
-  SEPTEMBER = 9,
-  OCTOBER = 10,
-  NOVEMBER = 11,
-  DECEMBER = 12
-};
-
 class Date {
-public:
-  std::string _full;
-  unsigned int _year;
-  unsigned int _month;
-  unsigned int _day;
+private:
+	std::string	 _full;
+	unsigned int _year;
+	unsigned int _month;
+	unsigned int _day;
 
 public:
-  Date();
-  Date(unsigned int year, unsigned int month, unsigned int day);
-  Date(std::string yymmdd);
-  Date(const Date &other);
-  Date &operator=(const Date &other);
-  ~Date();
+	Date();
+	Date(std::string yymmdd);
+	Date(const Date& other);
+	Date& operator=(const Date& other);
+	~Date();
 
-  class YearMustBeWithin1000And9999 : public std::exception {
-  public:
-    const char *what() const throw();
-  };
+	static bool			validDate(std::string yymmdd, Date& date);
+	static bool			validFormat(std::string yymmdd);
+	static unsigned int validYear(unsigned int year, Date& tmp);
+	static unsigned int validMonth(unsigned int month, Date& tmp);
+	static unsigned int validDay(unsigned int month, Date& tmp);
 
-  class MonthMustBeWithin1And12 : public std::exception {
-  public:
-    const char *what() const throw();
-  };
+	bool operator>(const Date& rval) const;
+	bool operator>=(const Date& rval) const;
+	bool operator<(const Date& rval) const;
+	bool operator<=(const Date& rval) const;
+	bool operator==(const Date& rval) const;
 
-  class DayMustBeInRange : public std::exception {
-  public:
-    const char *what() const throw();
-  };
+	unsigned int getYear(void) const;
+	unsigned int getMonth(void) const;
+	unsigned int getDay(void) const;
 
-  class DateFormatNotValid : public std::exception {
-  public:
-    const char *what() const throw();
-  };
-
-  bool validYear(void);
-  bool validMonth(void);
-  bool validDay(void);
-
-  bool operator>(const Date &rval) const;
-  bool operator<(const Date &rval) const;
+	class BadDateFormat : public std::exception {
+		const char* what() const throw();
+	};
+	class BadYearInput : public std::exception {
+		const char* what() const throw();
+	};
+	class BadMonthInput : public std::exception {
+		const char* what() const throw();
+	};
+	class BadDayInput : public std::exception {
+		const char* what() const throw();
+	};
 };
+
+std::ostream& operator<<(std::ostream& out, Date& date);
 
 #endif

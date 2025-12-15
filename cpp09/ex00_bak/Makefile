@@ -2,7 +2,7 @@ NAME	:= bitcoin_exchange
 CC		:= c++
 CFLAGS	:= -Wall -Wextra -Werror -std=c++98 -MMD -MP
 
-SRCS	:= main.cpp Date.cpp
+SRCS	:= main.cpp Date.cpp BitcoinExchange.cpp
 OBJDIR	:= obj
 BINDIR	:= bin
 OBJS 	:= $(SRCS:%.cpp=$(OBJDIR)/%.o)
