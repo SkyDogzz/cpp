@@ -22,8 +22,12 @@ public:
 	BitcoinExchange& operator=(const BitcoinExchange& other);
 	~BitcoinExchange();
 
-	void parseData(void);
-	void parseInput(const char* filename);
+	void  parseData(void);
+	void  parseInput(const char* filename);
+	float findInData(std::pair<Date, float> input);
+	class CouldntOpenFile : public std::exception {
+		const char* what() const throw();
+	};
 };
 
 #endif
