@@ -113,9 +113,9 @@ unsigned int Date::validDay(unsigned int day, Date& tmp) {
 	}
 
 	if (day > max)
-		return false;
+		return 0;
 	tmp._day = day;
-	return true;
+	return day;
 }
 
 bool Date::operator>(const Date& rval) const {
@@ -187,6 +187,6 @@ const char* Date::BadDayInput::what() const throw() {
 	return "Bad day input";
 }
 
-std::ostream& operator<<(std::ostream& out, Date& date) {
+std::ostream& operator<<(std::ostream& out, const Date& date) {
 	return out << date.getYear() << "-" << date.getMonth() << "-" << date.getDay();
 }

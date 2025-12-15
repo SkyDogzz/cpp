@@ -49,6 +49,6 @@ public:
 	};
 };
 
-std::ostream& operator<<(std::ostream& out, Date& date);
+std::ostream& operator<<(std::ostream& out, const Date& date);
 
 #endif

@@ -1,9 +1,14 @@
-#include <iostream>
-
-#include "Date.hpp"
+#include "BitcoinExchange.hpp"
 
 int main(void) {
-	Date date = Date("1900-02-29");
+	BitcoinExchange exchanger;
+	exchanger.parseData();
 
-	std::cout << date << std::endl;
+	Date data = exchanger._data.begin()->first;
+
+	std::multimap<Date, float>::iterator it = exchanger._data.begin();
+	while (it != exchanger._data.end()) {
+		std::cout << it->first << " " << it->second << std::endl;
+		it++;
+	}
 }
