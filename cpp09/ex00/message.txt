@@ -1,0 +1,263 @@
+#!/bin/bash
+
+
+mkdir inpt 
+
+echo "Generating empty_input_text.txt"
+echo "-------------------------------"
+echo "" >> inpt/empty_input_text.txt
+
+echo "Generating empty_input_text_2.txt"
+echo "-------------------------------"
+echo -n "" >> inpt/empty_input_text_2.txt
+
+echo "Generating header_only.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/header_only.txt
+
+echo "Generating header_only2.txt"
+echo "-------------------------------"
+echo -n "date | value" >> inpt/header_only2.txt
+
+echo "Generating wrong_header.txt"
+echo "-------------------------------"
+echo "date | vale" >> inpt/wrong_header.txt
+echo "2012-12-12 | 3" >> inpt/wrong_header.txt
+echo "2012-02-02 | 1001154564654" >> inpt/wrong_header.txt
+echo "2011-01-03 | 3" >> inpt/wrong_header.txt
+
+echo "Generating wrong_header_2.txt"
+echo "-------------------------------"
+echo " value  | date" >> inpt/wrong_header_2.txt
+echo "2012-12-12 | 3" >> inpt/wrong_header_2.txt
+echo "2012-02-02 | 1001154564654" >> inpt/wrong_header_2.txt
+echo "2011-01-03 | 3" >> inpt/wrong_header_2.txt
+
+echo "Generating good_header.txt"
+echo "-------------------------------"
+echo " value  | date " >> inpt/good_header.txt
+echo "2012-12-12 | 3" >> inpt/good_header.txt
+echo "2012-02-02 | 1001154564654" >> inpt/good_header.txt
+echo "2011-01-03 | 3" >> inpt/good_header.txt
+
+
+echo "Generating one_line.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/one_line.txt
+echo -n "2011-01-03 | 3" >> inpt/one_line.txt
+
+echo "Generating only_duplicata.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/only_duplicata.txt
+echo "2011-01-03 | 3" >> inpt/only_duplicata.txt
+echo "2011-01-03 | 3" >> inpt/only_duplicata.txt
+echo "2011-01-03 | 3" >> inpt/only_duplicata.txt
+
+echo "Generating wrong_line_format.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/wrong_line_format.txt
+echo "2011-01-03  3" >> inpt/wrong_line_format.txt
+echo "2011-01-03 | 3" >> inpt/wrong_line_format.txt
+echo "2011-01-03 | 3" >> inpt/wrong_line_format.txt
+
+echo "Generating wrong_line_format_2.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/wrong_line_format_2.txt
+echo "2011-01-03 | 3" >> inpt/wrong_line_format_2.txt
+echo "2011-01-03 | n" >> inpt/wrong_line_format_2.txt
+echo "2011-01-03 | 3" >> inpt/wrong_line_format_2.txt
+
+echo "Generating wrong_line_format_3.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/wrong_line_format_3.txt
+echo "2011-01-03 | 3" >> inpt/wrong_line_format_3.txt
+echo "2011-01-03 | 4 4 5" >> inpt/wrong_line_format_3.txt
+echo "2011-01-03 | 3" >> inpt/wrong_line_format_3.txt
+
+echo "Generating wrong_line_format_4.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/wrong_line_format_4.txt
+echo "2011-01-03 | 3" >> inpt/wrong_line_format_4.txt
+echo "2011-01-03 | 4 4 5" >> inpt/wrong_line_format_4.txt
+echo "2011-01-03 | 3" >> inpt/wrong_line_format_4.txt
+
+echo "Generating wrong_line_format_5.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/wrong_line_format_5.txt
+echo "2011-01-03 | 3" >> inpt/wrong_line_format_5.txt
+echo "2011-01-03 | 4 4 5" >> inpt/wrong_line_format_5.txt
+echo "2011-01-03 | 3" >> inpt/wrong_line_format_5.txt
+
+echo "Generating wrong_line_format_6.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/wrong_line_format_6.txt
+echo "2011-01-03 | 3" >> inpt/wrong_line_format_6.txt
+echo " | " >> inpt/wrong_line_format_6.txt
+echo "2011-01-03 | 3" >> inpt/wrong_line_format_6.txt
+
+echo "Generating wrong_line_format_7.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/wrong_line_format_7.txt
+echo "2011-01-03 | 3" >> inpt/wrong_line_format_7.txt
+echo "  " >> inpt/wrong_line_format_7.txt
+echo "2011-01-03 | 3" >> inpt/wrong_line_format_7.txt
+
+echo "Generating wrong_date_format.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/wrong_date_format.txt
+echo "2011-13-03 | 3" >> inpt/wrong_date_format.txt
+echo "2011-01-03 | 4" >> inpt/wrong_date_format.txt
+echo "2011-01-03 | 3" >> inpt/wrong_date_format.txt
+
+echo "Generating wrong_date_format_2.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/wrong_date_format_2.txt
+echo "2011-12-32 | 3" >> inpt/wrong_date_format_2.txt
+echo "2011-01-03 | 12" >> inpt/wrong_date_format_2.txt
+echo "2011-01-03 | 3" >> inpt/wrong_date_format_2.txt
+
+echo "Generating wrong_date_format_3.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/wrong_date_format_3.txt
+echo "201-12-28 | 3" >> inpt/wrong_date_format_3.txt
+echo "2011-01-03 | 12" >> inpt/wrong_date_format_3.txt
+echo "2011-01-03 | 3" >> inpt/wrong_date_format_3.txt
+
+echo "Generating wrong_date_format_4.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/wrong_date_format_4.txt
+echo "2012-28 | 3" >> inpt/wrong_date_format_4.txt
+echo "2011-01-03 | 12" >> inpt/wrong_date_format_4.txt
+echo "2011-01-03 | 3" >> inpt/wrong_date_format_4.txt
+
+echo "Generating wrong_date_format_5.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/wrong_date_format_5.txt
+echo "201228 | 3" >> inpt/wrong_date_format_5.txt
+echo "2011-01-03 | 12" >> inpt/wrong_date_format_5.txt
+echo "2011-01-03 | 3" >> inpt/wrong_date_format_5.txt
+
+echo "Generating wrong_date_format_6.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/wrong_date_format_6.txt
+echo "2012-12-12 | 3" >> inpt/wrong_date_format_6.txt
+echo "0-0-0 | 12" >> inpt/wrong_date_format_6.txt
+echo "2011-01-03 | 3" >> inpt/wrong_date_format_6.txt
+
+echo "Generating wrong_date_format_7.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/wrong_date_format_7.txt
+echo "2012-12-12 | 3" >> inpt/wrong_date_format_7.txt
+echo "2012-2-0 | 12" >> inpt/wrong_date_format_7.txt
+echo "2011-01-03 | 3" >> inpt/wrong_date_format_7.txt
+
+echo "Generating wrong_date_format_8.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/wrong_date_format_8.txt
+echo "2012-12-12 | 3" >> inpt/wrong_date_format_8.txt
+echo "012-200-045 | 12" >> inpt/wrong_date_format_8.txt
+echo "2011-01-03 | 3" >> inpt/wrong_date_format_8.txt
+
+echo "Generating neg_float.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/neg_float.txt
+echo "2012-12-12 | 3" >> inpt/neg_float.txt
+echo "2012-02-02 | -12.56" >> inpt/neg_float.txt
+echo "2011-01-03 | 3" >> inpt/neg_float.txt
+
+echo "Generating neg_int.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/neg_int.txt
+echo "2012-12-12 | 3" >> inpt/neg_int.txt
+echo "2012-02-02 | -12" >> inpt/neg_int.txt
+echo "2011-01-03 | 3" >> inpt/neg_int.txt
+
+echo "Generating overflow_int.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/overflow_int.txt
+echo "2012-12-12 | 3" >> inpt/overflow_int.txt
+echo "2012-02-02 | 1001" >> inpt/overflow_int.txt
+echo "2011-01-03 | 3" >> inpt/overflow_int.txt
+
+echo "Generating overflow_float.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/overflow_float.txt
+echo "2012-12-12 | 3" >> inpt/overflow_float.txt
+echo "2012-02-02 | 1001.25" >> inpt/overflow_float.txt
+echo "2011-01-03 | 3" >> inpt/overflow_float.txt
+
+echo "Generating big_overflow_float.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/big_overflow_float.txt
+echo "2012-12-12 | 3" >> inpt/big_overflow_float.txt
+echo "2012-02-02 | 1001154564654.565" >> inpt/big_overflow_float.txt
+echo "2011-01-03 | 3" >> inpt/big_overflow_float.txt
+
+echo "Generating big_overflow_int.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/big_overflow_int.txt
+echo "2012-12-12 | 3" >> inpt/big_overflow_int.txt
+echo "2012-02-02 | 1001154564654" >> inpt/big_overflow_int.txt
+echo "2011-01-03 | 3" >> inpt/big_overflow_int.txt
+
+
+
+echo "Generating multiple_errors.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/multiple_errors.txt
+echo "2012-12-12 | " >> inpt/multiple_errors.txt
+echo "2012-02-02 | 1001154564654" >> inpt/multiple_errors.txt
+echo "2011-013 | 3" >> inpt/multiple_errors.txt
+
+echo "Generating many_spaces.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/many_spaces.txt
+echo "2012-12-12 |       3" >> inpt/many_spaces.txt
+echo "2012-02-02 | 1001154564654" >> inpt/many_spaces.txt
+echo "2011-01-03 | 3" >> inpt/many_spaces.txt
+
+echo "Generating many_spaces_2.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/many_spaces_2.txt
+echo "2012-12-12      |       3     " >> inpt/many_spaces_2.txt
+echo "2012-02-02 | 1001154564654" >> inpt/many_spaces_2.txt
+echo "2011-01-03 | 3" >> inpt/many_spaces_2.txt
+
+echo "Generating many_spaces_3.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/many_spaces_3.txt
+echo "       2012 - 12-12      |       3     " >> inpt/many_spaces_3.txt
+echo "2012-02-02 | 1001154564654" >> inpt/many_spaces_3.txt
+echo "2011-01-03 | 3" >> inpt/many_spaces_3.txt
+
+echo "Generating wierd_number.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/wierd_number.txt
+echo "2012-12-12 | 3" >> inpt/wierd_number.txt
+echo "2012-12-12 | +3" >> inpt/wierd_number.txt
+echo "2011-01-03 | 32" >> inpt/wierd_number.txt
+
+echo "Generating wierd_number_2.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/wierd_number_2.txt
+echo "2012-12-12 | 3" >> inpt/wierd_number_2.txt
+echo "2012-02-02 | --32" >> inpt/wierd_number_2.txt
+echo "2011-01-03 | 322" >> inpt/wierd_number_2.txt
+
+echo "Generating wierd_number_3.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/wierd_number_3.txt
+echo "2012-12-12 | 3.3.3" >> inpt/wierd_number_3.txt
+echo "2012-02-02 | +-32" >> inpt/wierd_number_3.txt
+echo "2011-01-03 | 321" >> inpt/wierd_number_3.txt
+echo "2017-02-29 | 123" >> inpt/wierd_number_3.txt
+
+echo "Generating wierd_date.txt"
+echo "-------------------------------"
+echo "date | value" >> inpt/wierd_date.txt
+echo "2012-12-12 | 3.3.3" >> inpt/wierd_date.txt
+echo "2012-02-02 | +-32" >> inpt/wierd_date.txt
+echo "2011-1-03 | 321" >> inpt/wierd_date.txt
+echo "2011-01-03 | 321" >> inpt/wierd_date.txt
+echo "1969-12-01 | 123" >> inpt/wierd_date.txt
+
