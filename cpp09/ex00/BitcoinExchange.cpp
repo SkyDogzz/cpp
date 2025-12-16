@@ -31,13 +31,34 @@ void BitcoinExchange::parseData(void) {
 	}
 }
 
+struct IsSpace {
+	bool operator()(char c) const { return std::isspace(static_cast<unsigned char>(c)) != 0; }
+};
+
 inline std::string& ltrim(std::string& s) {
-	s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::ptr_fun<int, int>(std::isspace)));
+	std::string::iterator it = s.begin();
+	while (it != s.end() && IsSpace()(*it))
+		++it;
+	s.erase(s.begin(), it);
 	return s;
 }
 
 inline std::string& rtrim(std::string& s) {
-	s.erase(std::find_if(s.rbegin(), s.rend(), std::ptr_fun<int, int>(std::isspace)).base(), s.end());
+	if (s.empty())
+		return s;
+
+	std::string::iterator it = s.end();
+	do {
+		--it;
+		if (!IsSpace()(*it)) {
+			++it;
+			s.erase(it, s.end());
+			return s;
+		}
+	} while (it != s.begin());
+
+	// all spaces
+	s.clear();
 	return s;
 }
 
@@ -51,8 +72,6 @@ float BitcoinExchange::findInData(std::pair<Date, float> input) {
 	while (it != _data.end() && it->first < input.first)
 		it++;
 	value = input.second * it->second;
-	std::cout << input.second << "." << it->second << std::endl;
-	std::cout << value << std::endl;
 	return value;
 }
 
@@ -65,12 +84,29 @@ void BitcoinExchange::parseInput(const char* filename) {
 	while (std::getline(infile, line)) {
 		if (line == "date | value")
 			continue;
-		char*				   date = strtok(const_cast<char*>(line.data()), "|");
-		char*				   value = strtok(NULL, ",");
-		std::string			   dateT = date;
-		std::string			   valueT = value;
-		std::pair<Date, float> input = std::make_pair(Date(dateT), atof(valueT.data()));
-		std::cout << "|" << dateT << "|" << valueT << "|" << findInData(input) << std::endl;
+
+		std::string::size_type bar = line.find('|');
+		if (bar == std::string::npos) {
+			std::cout << "Error: bad input => " << line << std::endl;
+			continue;
+		}
+
+		std::string dateT = line.substr(0, bar);
+		std::string valueT = line.substr(bar + 1);
+
+		trim(dateT);
+		trim(valueT);
+
+		float v = static_cast<float>(std::atof(valueT.c_str()));
+		if (v < 0) {
+			std::cerr << "Error: not a positive number" << std::endl;
+			continue;
+		} else if (v > 1000) {
+			std::cerr << "Error: too loarge number (1000 max)" << std::endl;
+			continue;
+		}
+		std::pair<Date, float> input(Date(dateT), v);
+		std::cout << dateT << " => " << v << " = " << findInData(input) << std::endl;
 	}
 }
 
