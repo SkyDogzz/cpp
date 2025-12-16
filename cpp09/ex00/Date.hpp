@@ -31,9 +31,10 @@ public:
 	bool operator<=(const Date& rval) const;
 	bool operator==(const Date& rval) const;
 
-	unsigned int getYear(void) const;
-	unsigned int getMonth(void) const;
-	unsigned int getDay(void) const;
+	unsigned int	   getYear(void) const;
+	unsigned int	   getMonth(void) const;
+	unsigned int	   getDay(void) const;
+	const std::string& getFull(void) const;
 
 	class BadDateFormat : public std::exception {
 		const char* what() const throw();

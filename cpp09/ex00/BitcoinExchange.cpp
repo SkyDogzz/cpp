@@ -56,8 +56,6 @@ inline std::string& rtrim(std::string& s) {
 			return s;
 		}
 	} while (it != s.begin());
-
-	// all spaces
 	s.clear();
 	return s;
 }
@@ -75,6 +73,29 @@ float BitcoinExchange::findInData(std::pair<Date, float> input) {
 	return value;
 }
 
+static bool contains_bad_char(std::string yymmdd, std::string set) {
+	const char* date = static_cast<const char*>(yymmdd.data());
+
+	while (*date) {
+		if (set.find(*date) == std::string::npos)
+			return true;
+		date++;
+	}
+	return false;
+}
+
+inline bool validInput(std::string& s) {
+	std::string set = "0123456789.-+";
+	int			dots = std::count(s.begin(), s.end(), '.');
+	int			minus = std::count(s.begin(), s.end(), '-');
+	int			plus = std::count(s.begin(), s.end(), '+');
+
+	if (contains_bad_char(s, set) || dots > 1 || minus > 1 || (minus && s[0] != '-') || plus > 1 ||
+		(plus && s[0] != plus))
+		return false;
+	return true;
+}
+
 void BitcoinExchange::parseInput(const char* filename) {
 	std::ifstream infile(filename);
 	if (!infile.is_open())
@@ -82,7 +103,7 @@ void BitcoinExchange::parseInput(const char* filename) {
 
 	std::string line;
 	while (std::getline(infile, line)) {
-		if (line == "date | value")
+		if (trim(line) == "date | value" || trim(line) == "")
 			continue;
 
 		std::string::size_type bar = line.find('|');
@@ -97,15 +118,21 @@ void BitcoinExchange::parseInput(const char* filename) {
 		trim(dateT);
 		trim(valueT);
 
+		if (!validInput(valueT)) {
+			std::cerr << "Error: bad value: " << line << std::endl;
+			continue;
+		}
 		float v = static_cast<float>(std::atof(valueT.c_str()));
 		if (v < 0) {
 			std::cerr << "Error: not a positive number" << std::endl;
 			continue;
 		} else if (v > 1000) {
-			std::cerr << "Error: too loarge number (1000 max)" << std::endl;
+			std::cerr << "Error: too large number (1000 max)" << std::endl;
 			continue;
 		}
 		std::pair<Date, float> input(Date(dateT), v);
+		if (input.first.getFull() == "")
+			continue;
 		std::cout << dateT << " => " << v << " = " << findInData(input) << std::endl;
 	}
 }

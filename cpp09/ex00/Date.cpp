@@ -12,6 +12,7 @@ Date::Date(std::string yymmdd) : _full(yymmdd) {
 			return;
 	} catch (const std::exception& e) {
 		std::cerr << "Error: " << e.what() << " => " << _full << std::endl;
+		_full = "";
 	}
 }
 
@@ -174,17 +175,21 @@ unsigned int Date::getDay(void) const {
 	return _day;
 }
 
+const std::string& Date::getFull(void) const {
+	return _full;
+}
+
 const char* Date::BadDateFormat::what() const throw() {
-	return "Bad date format";
+	return "bad date format";
 }
 const char* Date::BadYearInput::what() const throw() {
-	return "Bad year input";
+	return "bad year input";
 }
 const char* Date::BadMonthInput::what() const throw() {
-	return "Bad month input";
+	return "bad month input";
 }
 const char* Date::BadDayInput::what() const throw() {
-	return "Bad day input";
+	return "bad day input";
 }
 
 std::ostream& operator<<(std::ostream& out, const Date& date) {
