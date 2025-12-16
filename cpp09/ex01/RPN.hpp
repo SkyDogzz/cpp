@@ -40,6 +40,16 @@ public:
 		const char* what() const throw();
 	};
 
+	class DivideByNothingException : public std::exception {
+	public:
+		const char* what() const throw();
+	};
+
+	class NotComsumedOperandException : public std::exception {
+	public:
+		const char* what() const throw();
+	};
+
 	long getRes(void);
 };
 

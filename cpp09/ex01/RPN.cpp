@@ -19,8 +19,10 @@ RPN::RPN(std::string expression) {
 	const char* del = " ";
 
 	char* t = strtok(expr, del);
+	if (!t)
+		throw RPN::NoOperandToConsumeException();
+	_operand.push_back(atoi(t));
 	if (!isAnOperand(static_cast<std::string>(t))) {
-		std::cerr << "here " << t << std::endl;
 		throw RPN::NoOperandToConsumeException();
 	}
 	t = strtok(NULL, del);
@@ -30,17 +32,19 @@ RPN::RPN(std::string expression) {
 		} else if (isAnOperator(t)) {
 			if (_operand.size() < 2)
 				throw RPN::NoOperandToConsumeException();
-			long op1 = _operand.back();
-			_operand.pop_back();
 			long op2 = _operand.back();
 			_operand.pop_back();
-			if (strcmp(t, "+"))
+			long op1 = _operand.back();
+			_operand.pop_back();
+			if (op2 == 0)
+				throw RPN::DivideByNothingException();
+			if (strcmp(t, "+") == 0)
 				_operand.push_back(op1 + op2);
-			else if (strcmp(t, "-"))
+			else if (strcmp(t, "-") == 0)
 				_operand.push_back(op1 - op2);
-			else if (strcmp(t, "*"))
+			else if (strcmp(t, "*") == 0)
 				_operand.push_back(op1 * op2);
-			else if (strcmp(t, "/"))
+			else if (strcmp(t, "/") == 0)
 				_operand.push_back(op1 / op2);
 		} else
 			throw RPN::NorOperandOperatorException();
@@ -74,6 +78,10 @@ const char* RPN::NorOperandOperatorException::what() const throw() {
 	return "nor operand or operator";
 }
 
+const char* RPN::DivideByNothingException::what() const throw() {
+	return "attempt to divide by 0";
+}
+
 const char* RPN::NoOperandToConsumeException::what() const throw() {
 	return "expr need operand to consume";
 }
@@ -88,6 +96,9 @@ const char* RPN::MultipleSpaceException::what() const throw() {
 
 const char* RPN::EvenNumberOfOpeException::what() const throw() {
 	return "even numbers of ope";
+}
+const char* RPN::NotComsumedOperandException::what() const throw() {
+	return "not all operands were comsumed";
 }
 
 bool multipleSpaces(std::string s) {
@@ -111,7 +122,7 @@ bool isAnOperand(std::string s) {
 
 	if (contains_bad_char(s, "-0123456789"))
 		return false;
-	if (minus > 1 || (minus && s[0] != '-'))
+	if (minus > 1 || (minus && s[0] != '-') || (minus && s.size() == 1))
 		return false;
 	return true;
 }
@@ -126,6 +137,6 @@ bool isAnOperator(std::string s) {
 
 long RPN::getRes(void) {
 	if (_operand.size() != 1)
-		return 0;
+		throw RPN::NotComsumedOperandException();
 	return *_operand.begin();
 }
