@@ -8,8 +8,7 @@
 
 class RPN {
 public:
-	long				   _res;
-	std::list<std::string> _ope;
+	std::list<long> _operand;
 
 	RPN(std::string expression);
 	RPN(const RPN& other);
@@ -17,6 +16,16 @@ public:
 	~RPN();
 
 	class ContainsBadCharException : public std::exception {
+	public:
+		const char* what() const throw();
+	};
+
+	class NoOperandToConsumeException : public std::exception {
+	public:
+		const char* what() const throw();
+	};
+
+	class NorOperandOperatorException : public std::exception {
 	public:
 		const char* what() const throw();
 	};
@@ -31,30 +40,7 @@ public:
 		const char* what() const throw();
 	};
 
-	class Number {
-	public:
-		class ContainsBadCharException : public std::exception {
-		public:
-			const char* what() const throw();
-		};
-		class MinusProblemException : public std::exception {
-		public:
-			const char* what() const throw();
-		};
-	};
-
-	class Operand {
-	public:
-		class NotAnOperandException : public std::exception {
-		public:
-			const char* what() const throw();
-		};
-	};
-
-	void verifList(void);
-	void constructList(std::string& expression);
-	void verifExpression(std::string& expression);
-	int	 resolve(void);
+	long getRes(void);
 };
 
 #endif

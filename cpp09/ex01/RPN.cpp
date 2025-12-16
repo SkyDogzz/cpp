@@ -1,13 +1,51 @@
 #include "RPN.hpp"
 
 #include <algorithm>
+#include <cctype>
 #include <cstring>
 #include <string>
 
-RPN::RPN(std::string expression) : _res(0) {
-	verifExpression(expression);
-	constructList(expression);
-	verifList();
+bool multipleSpaces(std::string s);
+bool isAnOperator(std::string s);
+bool isAnOperand(std::string s);
+bool contains_bad_char(std::string& s, std::string set);
+
+RPN::RPN(std::string expression) {
+	if (multipleSpaces(expression))
+		throw RPN::MultipleSpaceException();
+	else if (contains_bad_char(expression, "0123456789 -+/*"))
+		throw RPN::MultipleSpaceException();
+	char*		expr = const_cast<char*>(expression.data());
+	const char* del = " ";
+
+	char* t = strtok(expr, del);
+	if (!isAnOperand(static_cast<std::string>(t))) {
+		std::cerr << "here " << t << std::endl;
+		throw RPN::NoOperandToConsumeException();
+	}
+	t = strtok(NULL, del);
+	while (t != NULL) {
+		if (isAnOperand(t)) {
+			_operand.push_back(atoi(t));
+		} else if (isAnOperator(t)) {
+			if (_operand.size() < 2)
+				throw RPN::NoOperandToConsumeException();
+			long op1 = _operand.back();
+			_operand.pop_back();
+			long op2 = _operand.back();
+			_operand.pop_back();
+			if (strcmp(t, "+"))
+				_operand.push_back(op1 + op2);
+			else if (strcmp(t, "-"))
+				_operand.push_back(op1 - op2);
+			else if (strcmp(t, "*"))
+				_operand.push_back(op1 * op2);
+			else if (strcmp(t, "/"))
+				_operand.push_back(op1 / op2);
+		} else
+			throw RPN::NorOperandOperatorException();
+		t = strtok(NULL, del);
+	}
 }
 
 RPN::RPN(const RPN& other) {
@@ -21,7 +59,7 @@ RPN& RPN::operator=(const RPN& other) {
 
 RPN::~RPN() {}
 
-static bool contains_bad_char(std::string& s, std::string set) {
+bool contains_bad_char(std::string& s, std::string set) {
 	const char* consted = static_cast<const char*>(s.data());
 
 	while (*consted) {
@@ -30,6 +68,14 @@ static bool contains_bad_char(std::string& s, std::string set) {
 		consted++;
 	}
 	return false;
+}
+
+const char* RPN::NorOperandOperatorException::what() const throw() {
+	return "nor operand or operator";
+}
+
+const char* RPN::NoOperandToConsumeException::what() const throw() {
+	return "expr need operand to consume";
 }
 
 const char* RPN::ContainsBadCharException::what() const throw() {
@@ -44,7 +90,7 @@ const char* RPN::EvenNumberOfOpeException::what() const throw() {
 	return "even numbers of ope";
 }
 
-static bool multipleSpaces(std::string& s) {
+bool multipleSpaces(std::string s) {
 	const char* consted = (s.c_str());
 
 	bool lastIsSpace = false;
@@ -59,97 +105,27 @@ static bool multipleSpaces(std::string& s) {
 	}
 	return false;
 }
-void RPN::verifExpression(std::string& expression) {
-	std::string set = "0123456789 -+*/";
 
-	if (contains_bad_char(expression, set))
-		throw RPN::ContainsBadCharException();
-
-	if (multipleSpaces(expression))
-		throw RPN::MultipleSpaceException();
-
-	if (expression.at(expression.size() - 1) == ' ')
-		throw RPN::MultipleSpaceException();
-}
-
-void RPN::constructList(std::string& expression) {
-	const char* del = " ";
-	char*		expr = const_cast<char*>(expression.data());
-
-	char* t = strtok(expr, del);
-	while (t != NULL) {
-		_ope.push_back(std::string(t));
-		t = strtok(NULL, del);
-	}
-}
-
-const char* RPN::Number::ContainsBadCharException::what() const throw() {
-	return "number contain bad char";
-}
-
-const char* RPN::Number::MinusProblemException::what() const throw() {
-	return "multiple or misplaced minus";
-}
-
-const char* RPN::Operand::NotAnOperandException::what() const throw() {
-	return "not an operand";
-}
-
-static void isANumber(std::string s) {
+bool isAnOperand(std::string s) {
 	int minus = std::count(s.begin(), s.end(), '-');
 
 	if (contains_bad_char(s, "-0123456789"))
-		throw RPN::Number::ContainsBadCharException();
+		return false;
 	if (minus > 1 || (minus && s[0] != '-'))
-		throw RPN::Number::MinusProblemException();
+		return false;
+	return true;
 }
 
-static void isAnOperand(std::string s) {
+bool isAnOperator(std::string s) {
 	if (s.size() != 1)
-		throw RPN::Operand::NotAnOperandException();
+		return false;
 	if (contains_bad_char(s, "+-/*"))
-		throw RPN::Operand::NotAnOperandException();
+		return false;
+	return true;
 }
 
-void RPN::verifList() {
-	if (_ope.size() % 2 == 0)
-		throw RPN::EvenNumberOfOpeException();
-	std::list<std::string>::iterator it = _ope.begin();
-	isANumber(*it);
-	it++;
-	if (it == _ope.end())
-		return;
-	isANumber(*it);
-	it++;
-	isAnOperand(*it);
-	it++;
-	while (it != _ope.end()) {
-		isANumber(*it);
-		it++;
-		isAnOperand(*it);
-		it++;
-	}
-}
-
-int RPN::resolve(void) {
-	std::list<std::string>::iterator it = _ope.begin();
-	isANumber(*it);
-	_res = atoi((*it).data());
-	it++;
-	while (it != _ope.end()) {
-		int operan = atoi((*it).data());
-		it++;
-		char operat = (*it).at(0);
-		it++;
-
-		if (operat == '-')
-			_res -= operan;
-		else if (operat == '+')
-			_res += operan;
-		else if (operat == '*')
-			_res *= operan;
-		else if (operat == '/')
-			_res /= operan;
-	}
-	return _res;
+long RPN::getRes(void) {
+	if (_operand.size() != 1)
+		return 0;
+	return *_operand.begin();
 }
