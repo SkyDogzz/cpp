@@ -36,7 +36,7 @@ RPN::RPN(std::string expression) {
 			_operand.pop_back();
 			long op1 = _operand.back();
 			_operand.pop_back();
-			if (op2 == 0)
+			if (op2 == 0 && strcmp(t, "/") == 0)
 				throw RPN::DivideByNothingException();
 			if (strcmp(t, "+") == 0)
 				_operand.push_back(op1 + op2);
