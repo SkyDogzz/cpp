@@ -2,17 +2,19 @@
 
 #include "RPN.hpp"
 
-int main(int argc, char* argv[]) {
-	if (argc != 2) {
-		std::cout << "Usage: " << argv[0] << " expression" << std::endl;
-		return EXIT_FAILURE;
-	}
+int main(int argc, char* argv[])
+{
+    if (argc != 2) {
+        std::cout << "Usage: " << argv[0] << " expression" << std::endl;
+        return EXIT_FAILURE;
+    }
 
-	try {
-		RPN expr(argv[1]);
+    try {
+        RPN expr(argv[1]);
 
-		std::cout << expr.getRes() << std::endl;
-	} catch (const std::exception& e) {
-		std::cerr << "Error: " << e.what() << std::endl;
-	}
+        std::cout << expr.getRes() << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+    return EXIT_SUCCESS;
 }
