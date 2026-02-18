@@ -9,12 +9,16 @@
 #include "Bureaucrat.hpp"
 
 class RobotomyRequestForm : public AForm {
-public:
-	RobotomyRequestForm(std::string name);
-	RobotomyRequestForm(const RobotomyRequestForm& other);
-	RobotomyRequestForm& operator=(const RobotomyRequestForm& other);
-	~RobotomyRequestForm();
+private:
+    RobotomyRequestForm();
 
-	void beExecuted(void);
+public:
+    RobotomyRequestForm(std::string name);
+    RobotomyRequestForm(const RobotomyRequestForm& other);
+    RobotomyRequestForm& operator=(const RobotomyRequestForm& other);
+    ~RobotomyRequestForm();
+
+    void beExecuted(void);
 };
+
 #endif

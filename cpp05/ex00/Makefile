@@ -1,6 +1,6 @@
 NAME	:= mommy
 CC		:= c++
-#CFLAGS	:= -Wall -Wextra -Werror -std=c++98 -MMD -MP
+CFLAGS	:= -Wall -Wextra -Werror -std=c++98 -MMD -MP
 
 SRCS	:= main.cpp Bureaucrat.cpp
 OBJDIR	:= obj
