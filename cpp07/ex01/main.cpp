@@ -2,13 +2,10 @@
 #include <iostream>
 #include <string>
 
-// Generic print function (const ref ✅)
 template <typename T> void printElement(T const& value) { std::cout << value << " "; }
 
-// Function that modifies an int (non-const ref ✅)
 void increment(int& value) { ++value; }
 
-// Function that uppercases a std::string (non-const ref ✅)
 void toUpper(std::string& str)
 {
     for (std::size_t i = 0; i < str.size(); ++i) {
@@ -17,7 +14,6 @@ void toUpper(std::string& str)
     }
 }
 
-// A small custom type to be fancy 😌
 struct Awesome {
     int _n;
     Awesome(int n = 42)

@@ -88,6 +88,6 @@ int main()
         std::cout << "Caught exception: " << e.what() << std::endl;
     }
 
-    std::cout << "\n=== All tests done 😈 ===" << std::endl;
+    std::cout << "\n=== All tests done ===" << std::endl;
     return 0;
 }
