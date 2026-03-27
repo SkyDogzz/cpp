@@ -40,7 +40,7 @@ int main()
     try {
         int numbers = 10000;
         Span big(numbers);
-        std::vector<int> values;
+        std::vector< int > values;
 
         std::srand(std::time(NULL));
         for (int i = 0; i < numbers; ++i)

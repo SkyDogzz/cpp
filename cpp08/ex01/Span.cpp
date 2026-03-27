@@ -44,7 +44,7 @@ unsigned int Span::shortestSpan(void)
     std::sort(_storage.begin(), _storage.end());
     unsigned int min = UINT_MAX;
     for (unsigned int i = 0; i < _actIndex - 1; i++)
-        if (static_cast<long>(_storage[i + 1]) - static_cast<long>(_storage[i]) < static_cast<long>(min))
+        if (static_cast< long >(_storage[i + 1]) - static_cast< long >(_storage[i]) < static_cast< long >(min))
             min = _storage[i + 1] - _storage[i];
     return min;
 }
@@ -54,7 +54,7 @@ unsigned int Span::longestSpan(void)
     if (_actIndex <= 1)
         throw Span::NotEnoughNumbersException();
     std::sort(_storage.begin(), _storage.end());
-    return static_cast<int>(static_cast<long>(_storage[_actIndex - 1] - static_cast<long>(_storage[0])));
+    return static_cast< int >(static_cast< long >(_storage[_actIndex - 1] - static_cast< long >(_storage[0])));
 }
 
 const char* Span::SpanFullException::what() const throw() { return "Span already full exception"; }
