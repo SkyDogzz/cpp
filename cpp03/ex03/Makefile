@@ -1,6 +1,6 @@
 NAME	:= now_its_weird
-CC		:= c++
-CFLAGS	:= -Wall -Wextra -Werror -Wshadow -std=c++98 -MMD -MP
+CXX		:= c++
+CXXFLAGS	:= -Wall -Wextra -Werror -Wshadow -std=c++98 -MMD -MP
 
 SRCS	:= main.cpp ClapTrap.cpp ScavTrap.cpp FragTrap.cpp DiamondTrap.cpp
 OBJDIR	:= obj
@@ -8,21 +8,21 @@ BINDIR	:= bin
 OBJS 	:= $(SRCS:%.cpp=$(OBJDIR)/%.o)
 
 ifeq ($(DEBUG), 0)
-	CFLAGS += -DVERBOSE=0
+	CXXFLAGS += -DVERBOSE=0
 else
-	CFLAGS += -DVERBOSE=1 -g3
+	CXXFLAGS += -DVERBOSE=1 -g3
 endif
 
 all: $(BINDIR)/$(NAME)
 
 $(BINDIR)/$(NAME): $(OBJS)
 	@mkdir -p $(BINDIR)
-	$(CC) $(CFLAGS) $^ -o $@
+	$(CXX) $(CXXFLAGS) $^ -o $@
 	@echo "✅ Build complete: $(NAME)"
 
 $(OBJDIR)/%.o: %.cpp
 	@mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 	@echo "🛠️ Compiled: $<"
 
 -include $(OBJS:.o=.d)

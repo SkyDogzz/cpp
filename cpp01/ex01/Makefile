@@ -1,6 +1,6 @@
 NAME	:= moar_brainz
-CC		:= c++
-CFLAGS	:= -Wall -Wextra -Werror -std=c++98 -MMD -MP
+CXX		:= c++
+CXXFLAGS	:= -Wall -Wextra -Werror -std=c++98 -MMD -MP
 
 SRCS	:= main.cpp Zombie.cpp zombieHorde.cpp
 OBJDIR	:= obj
@@ -11,12 +11,12 @@ all: $(BINDIR)/$(NAME)
 
 $(BINDIR)/$(NAME): $(OBJS)
 	@mkdir -p $(BINDIR)
-	$(CC) $(CFLAGS) $^ -o $@
+	$(CXX) $(CXXFLAGS) $^ -o $@
 	@echo "✅ Build complete: $(NAME)"
 
 $(OBJDIR)/%.o: %.cpp
 	@mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 	@echo "🛠️ Compiled: $<"
 
 -include $(OBJS:.o=.d)
